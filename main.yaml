@@ -14,7 +14,7 @@ jobs:
     env:
         ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-        ARM_TENANT_ID: "84f1e4ea-8554-43e1-8709-f0b8589ea118"
+        ARM_TENANT_ID: "84f1e4ea-8554-43e1-8709-f0b8589ea11"
  
     steps:
       - name: Checkout code
