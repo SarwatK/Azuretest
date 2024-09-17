@@ -23,7 +23,7 @@ resource "azurerm_virtual_network" "new" {
   resource_group_name = azurerm_resource_group.new.name
 
   tags = {
-    environment = "development"
+    
   }
 }
 # Define a subnet within the virtual network
