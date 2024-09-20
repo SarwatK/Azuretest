@@ -1,7 +1,3 @@
-provider "azurerm" {
-    features {}
-    subscription_id = "0cfe2870-d256-4119-b0a3-16293ac11bdc"
-}
 # Define the resource group
 resource "azurerm_resource_group" "example" {
   name     = "example-resources"
