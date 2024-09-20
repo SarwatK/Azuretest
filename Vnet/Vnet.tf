@@ -1,18 +1,6 @@
 provider "azurerm" {
   features {}
 }
-# Define the resource group
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
-}
-
-# Define the resource group
-resource "azurerm_resource_group" "new" {
-  name     = "new-resources"
-  location = "West Europe"
-}
-
 # Define the virtual network
 resource "azurerm_virtual_network" "new" {
   name                = "new-vnet"
@@ -23,6 +11,7 @@ resource "azurerm_virtual_network" "new" {
   tags = {
   }
 }
+
 # Define a subnet within the virtual network
 resource "azurerm_subnet" "subnet1" {
   name                 = "subnet1-subnet"
