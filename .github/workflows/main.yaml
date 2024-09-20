@@ -1,50 +1,50 @@
-name: Terraform
+name: Azure Terraform
  
 on:
   push:
     branches:
       - main
-  pull_request:
+  workflow_dispatch:
+ 
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}"
  
 jobs:
   terraform:
-    name: 'Terraform'
     runs-on: ubuntu-latest
-
-    env:
-        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: "84f1e4ea-8554-43e1-8709-f0b8589ea118"
+ 
+    defaults:
+      run:
+        shell: bash
  
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Azure CLI login
-        run: |
-          az login --service-principal \
-                   --username ${{ secrets.AZURE_CLIENT_ID }} \
-                   --password ${{ secrets.AZURE_CLIENT_SECRET }} \
-                   --tenant ${{ secrets.AZURE_TENANT_ID }}
+    - name: Checkout code
+      uses: actions/checkout@v2
+   
+    - uses: Azure/login@v1
+      with:
+        creds: '{"clientId":"${{ env.ARM_CLIENT_ID }}","clientSecret":"${{ env.ARM_CLIENT_SECRET }}","subscriptionId":"${{ env.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ env.ARM_TENANT_ID }}"}'
  
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: '1.9.5' # specify your Terraform version here
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: "1.0.9"
  
-      - name: Terraform Init
-        run: terraform init
-        working-directory: Vnet
+    - name: Terraform Init
+      run: terraform init
+      working-directory: Vnet
  
-      - name: Terraform Validate
-        run: terraform validate
-        working-directory: Vnet
+    - name: Terraform Validate
+      run: terraform validate
+      working-directory: Vnet
  
-      - name: Terraform Plan
-        run: terraform plan
-        working-directory: Vnet
+    - name: Terraform Plan
+      run: terraform plan
+      working-directory: Vnet
  
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-        working-directory: Vnet
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      working-directory: Vnet
