@@ -20,6 +20,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Azure CLI login
+        run: |
+          az login --service-principal \
+                   --username ${{ secrets.AZURE_CLIENT_ID }} \
+                   --password ${{ secrets.AZURE_CLIENT_SECRET }} \
+                   --tenant ${{ secrets.AZURE_TENANT_ID }}
  
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
